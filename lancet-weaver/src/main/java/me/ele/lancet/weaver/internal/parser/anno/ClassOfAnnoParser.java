@@ -83,16 +83,16 @@ public class ClassOfAnnoParser implements AnnoParser {
             Graph graph = locator.graph();
             Type origin = locator.getArgsType()[index];
             if (origin.getSort() != Type.OBJECT && origin.getSort() != Type.ARRAY) {
-                throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value");
+                throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value  origin.getSort()" + origin.getSort());
             }
 
-            if (type.getDimensions() == origin.getDimensions()) {
+            if (type.getDimensions() == origin.getDimensions() || type.getDimensions() == 1) {
                 if (!graph.inherit(internalClassName(type), internalClassName(origin))) {
-                    throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value");
+                    throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value type.getDimensions() " +type.getDimensions());
                 }
             } else {
                 if (origin.getSort() != Type.OBJECT || !"java/lang/Object".equals(origin.getInternalName())) {
-                    throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value");
+                    throw new IllegalArgumentException("@ClassOf 's origin type should be parent in value origin.getInternalName()" +origin.getInternalName());
                 }
             }
             locator.adjustTargetMethodArgs(index, type);

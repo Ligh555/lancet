@@ -21,12 +21,12 @@ public class AopMethodAdjuster {
      * implementation "org.ow2.asm:asm-util:$asm_version"
      * implementation "org.ow2.asm:asm-commons:$asm_version"
      * implementation "org.ow2.asm:asm-analysis:$asm_version"
-     * 后
+     *
      * <p>
-     * OP_CALL = Integer.MAX_VALUE; 时 操作码对不上
+     * OP_CALL = Integer.MAX_VALUE;操作码对不上
      * <p>
      * 调整
-     * OP_CALL = Integer.MIN_VALUE;是 操作码正常
+     * OP_CALL = Integer.MIN_VALUE;操作码正
      */
     public static final int OP_CALL = Integer.MIN_VALUE;
     public static final int OP_THIS_GET_FIELD = OP_CALL + 1;
@@ -70,6 +70,9 @@ public class AopMethodAdjuster {
         while (element != null) {
             if (element instanceof MethodInsnNode) { //MethodInsnNode
                 element = transform((MethodInsnNode) element);
+            }
+            if (element instanceof LineNumberNode) {
+                ((LineNumberNode) element).line += 80000;
             }
             element = element.getNext();
         }
